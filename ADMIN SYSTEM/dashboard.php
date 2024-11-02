@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = new mysqli('127.0.0.1:3306', 'root', 'root', 'admin_system');
+$conn = new mysqli('127.0.0.1:3306', 'root', '', 'admin_system');
 $userId = $_SESSION['user_id'];
 
 $stmt = $conn->prepare("SELECT name, username, created_at FROM users WHERE id=?");

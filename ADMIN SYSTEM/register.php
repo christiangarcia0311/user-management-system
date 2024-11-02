@@ -86,24 +86,26 @@
         $name = $_POST['name'];
         $email = $_POST['email'];
 
-        $conn = new mysqli('127.0.0.1:3306', 'root', 'root', 'admin_system');
+        $conn = new mysqli('127.0.0.1:3306', 'root', '', 'admin_system');
 
         if ($conn->connect_error) {
             $message = "<p class='error-message'>Connection failed: " . $conn->connect_error . "</p>";
         } else {
-            $stmt = $conn->prepare("SELECT * FROM users WHERE name = ? OR email = ?");
-            $stmt->bind_param("ss", $name, $email);
+            // Check for duplicate name only
+            $stmt = $conn->prepare("SELECT * FROM users WHERE name = ?");
+            $stmt->bind_param("s", $name);
             $stmt->execute();
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                $message = "<p class='error-message'>Name or email already exists. Please choose a different one.</p>";
+                $message = "<p class='error-message'>Name already exists. Please choose a different one.</p>";
             } else {
+                // Insert new user
                 $stmt = $conn->prepare("INSERT INTO users (name, email, username, password) VALUES (?, ?, '', '')");
                 $stmt->bind_param("ss", $name, $email);
 
                 if ($stmt->execute()) {
-                    $message = "<p>Registration successful! Await admin approval and check your email.</p>";
+                    $message = "<p>Registration successful! check your email for approval.</p>";
                     $redirect = true; 
                 } else {
                     $message = "<p class='error-message'>Error: " . $stmt->error . "</p>";

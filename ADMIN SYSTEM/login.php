@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Connect to the database
-    $conn = new mysqli('127.0.0.1:3306', 'root', 'root', 'admin_system');
+    $conn = new mysqli('127.0.0.1:3306', 'root', '', 'admin_system');
 
     // Check connection
     if ($conn->connect_error) {

@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 // DATABASE CONNECTION
 include 'config.php';
 
-$conn = new mysqli('127.0.0.1:3306', 'root', 'root', 'admin_system');
+$conn = new mysqli('127.0.0.1:3306', 'root', '', 'admin_system');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
